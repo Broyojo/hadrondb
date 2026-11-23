@@ -1,28 +1,28 @@
 import type { ReactNode } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeft, ExternalLink, Info, Lightbulb, Plus } from "lucide-react";
-import { useTitle } from "@/lib/use-title";
-import { GameImage } from "@/components/game-image";
-import { RatingBadge, RatingBar } from "@/components/rating";
-import { ReportCard } from "@/components/report-card";
+import { ExternalLink } from "lucide-react";
+import { GameArt } from "@/components/game-image";
+import { RatingBar, RatingMark } from "@/components/rating";
+import { ReportEntry } from "@/components/report-entry";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { catalog, REPO_URL, reportFormUrl } from "@/data";
 import { GRAPHICS_INFO } from "@/lib/graphics";
-import { RATINGS } from "@/lib/ratings";
 import { summarize } from "@/lib/summary";
+import { useTitle } from "@/lib/use-title";
 import { formatVersion } from "@/lib/versions";
 import { NotFoundPage } from "./not-found";
 
-const MAC_VERSION_TIP =
-  "This game also has a Mac version, which Steam installs unless told otherwise. To play the Windows version through Hadron, open the game's Properties in Steam, go to Compatibility, and tick “Force the use of a specific Steam Play compatibility tool”.";
+const MAC_VERSION_NOTE =
+  "Has a Mac version, which Steam installs unless told otherwise. For the Windows version through Hadron: the game's Properties in Steam, Compatibility, tick “Force the use of a specific Steam Play compatibility tool”.";
 
-function Fact({ label, children }: { label: string; children: ReactNode }) {
+function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-0.5 border-b py-2.5 last:border-b-0 sm:flex-row sm:gap-4">
-      <dt className="w-36 shrink-0 text-sm text-muted-foreground">{label}</dt>
-      <dd className="text-sm">{children}</dd>
-    </div>
+    <tr className="border-b">
+      <th scope="row" className="label w-28 py-2 pr-3 text-left align-top font-medium sm:w-40 sm:pr-4">
+        {label}
+      </th>
+      <td className="py-1.5 align-top">{children}</td>
+    </tr>
   );
 }
 
@@ -33,128 +33,132 @@ export function GamePage({ kind }: { kind: "steam" | "program" }) {
   if (!entry) return <NotFoundPage />;
 
   const summary = summarize(entry.reports);
-  const tips = [...(entry.hasMacVersion ? [MAC_VERSION_TIP] : []), ...entry.tips];
+  const notes = [...(entry.hasMacVersion ? [MAC_VERSION_NOTE] : []), ...entry.tips];
   const formUrl = reportFormUrl(entry.name, entry.appId);
-  const basisText =
+  const basis =
     summary.basis.length === 0
       ? ""
       : summary.latestVersion
-        ? `From ${summary.basis.length === 1 ? "the report" : `the ${summary.basis.length} reports`} on ${formatVersion(summary.latestVersion)}, the newest version tried.`
-        : `From ${summary.basis.length === 1 ? "one report" : `${summary.basis.length} reports`} that don't name a Hadron version.`;
+        ? `From ${summary.basis.length === 1 ? "the report" : `the ${summary.basis.length} reports`} on ${summary.latestVersion}, the newest version tried.`
+        : `From ${summary.basis.length === 1 ? "one report" : `${summary.basis.length} reports`} without a Hadron version.`;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-6 pb-16">
-      <Link to="/" className="inline-flex items-center gap-1.5 rounded-md text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="size-4" aria-hidden /> All games
-      </Link>
+    <div className="mx-auto max-w-[1200px] px-4 pt-3 pb-12">
+      <p className="text-[12px] text-muted-foreground">
+        <Link to="/" className="hover:text-foreground hover:underline">
+          Games
+        </Link>{" "}
+        / {entry.kind === "steam" ? <span className="font-mono">{entry.appId}</span> : "not on Steam"}
+      </p>
 
-      <div className="mt-4 grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <section aria-labelledby="game-title" className="min-w-0">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-            <GameImage entry={entry} eager className="rounded-xl border sm:w-72 sm:shrink-0" />
-            <div className="min-w-0">
-              <h1 id="game-title" className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
-                {entry.name}
-              </h1>
-              <div className="mt-3">
-                <RatingBadge rating={summary.rating} size="lg" />
-              </div>
-              {summary.rating && (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {RATINGS[summary.rating].short}. {basisText}
-                </p>
-              )}
-              {!summary.rating && (
-                <p className="mt-2 text-sm text-muted-foreground">Nobody has reported on this one yet. Tried it?</p>
-              )}
-            </div>
-          </div>
-
-          {tips.length > 0 && (
-            <div className="mt-6 space-y-2">
-              {tips.map((t) => (
-                <p key={t} className="flex gap-2.5 rounded-lg border bg-accent px-4 py-3 text-sm text-accent-foreground">
-                  <Lightbulb className="mt-0.5 size-4 shrink-0" aria-hidden />
-                  <span>{t}</span>
-                </p>
-              ))}
-            </div>
+      <header className="mt-2 flex flex-col gap-3 border-b border-rule pb-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="text-[22px] leading-tight font-semibold tracking-tight">{entry.name}</h1>
+          <p className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <RatingMark rating={summary.rating} full className="text-[15px] font-semibold [&>span:first-child]:size-3" />
+            {basis && <span className="text-[13px] text-muted-foreground">{basis}</span>}
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-4 text-[13px]">
+          {(entry.storeUrl || entry.website) && (
+            <a href={entry.storeUrl ?? entry.website} className="inline-flex items-center gap-1 text-primary hover:underline">
+              {entry.storeUrl ? "Steam store" : "Website"}
+              <ExternalLink className="size-3" aria-label="(external)" />
+            </a>
           )}
+          <Button asChild variant="outline">
+            <a href={formUrl}>Add a report</a>
+          </Button>
+        </div>
+      </header>
 
-          <div className="mt-8 flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-xl font-semibold tracking-tight">
-              Reports <span className="text-muted-foreground">({summary.total})</span>
-            </h2>
-            <span className="text-sm text-muted-foreground">Newest first</span>
-          </div>
-          {entry.reports.length > 0 ? (
-            <div className="mt-4 space-y-4">
-              {entry.reports.map((r) => (
-                <ReportCard key={r.id} report={r} />
-              ))}
-            </div>
-          ) : (
-            <div className="mt-4 rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
-              No reports yet.{" "}
-              <a className="font-medium text-primary underline" href={formUrl}>
-                Be the first
-              </a>
-              .
-            </div>
-          )}
-        </section>
-
-        <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start" aria-label="About this game">
-          <Card>
-            <CardContent>
-              <h2 className="mb-3 text-sm font-semibold">Summary</h2>
-              <RatingBar counts={summary.counts} total={summary.total} />
-              <dl className="mt-3">
-                <Fact label="Latest version tried">
-                  {summary.latestVersion ? formatVersion(summary.latestVersion) : summary.total ? "Not given" : "None yet"}
-                </Fact>
-                {summary.lastDate && <Fact label="Latest report">{summary.lastDate}</Fact>}
-                <Fact label="Graphics">
-                  <ul className="space-y-1">
-                    {entry.graphicsApis.map((g) => (
-                      <li key={g}>
-                        {GRAPHICS_INFO[g].label}
-                        {GRAPHICS_INFO[g].path && (
-                          <span className="block text-xs text-muted-foreground">through {GRAPHICS_INFO[g].path}</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </Fact>
-                <Fact label="Architecture">{entry.arch === "unknown" ? "Not known" : entry.arch}</Fact>
-                {entry.engine && <Fact label="Engine">{entry.engine}</Fact>}
-                {entry.antiCheat && <Fact label="Anti-cheat">{entry.antiCheat}</Fact>}
-                {entry.appId !== undefined && <Fact label="Steam app ID">{entry.appId}</Fact>}
-                {entry.kind === "program" && <Fact label="Source">Not on Steam: run with Open With Hadron</Fact>}
-              </dl>
-            </CardContent>
-          </Card>
-          <div className="flex flex-col gap-2">
-            <Button asChild>
-              <a href={formUrl}>
-                <Plus aria-hidden /> Add your report
-              </a>
-            </Button>
-            {(entry.storeUrl || entry.website) && (
-              <Button asChild variant="outline">
-                <a href={entry.storeUrl ?? entry.website}>
-                  <ExternalLink aria-hidden /> {entry.storeUrl ? "Steam store page" : "Website"}
-                </a>
-              </Button>
+      <div className="mt-4 grid gap-6 md:grid-cols-[minmax(0,1fr)_300px]">
+        <table className="w-full border-collapse self-start text-[13px]">
+          <caption className="sr-only">About {entry.name}</caption>
+          <tbody>
+            {entry.appId !== undefined && (
+              <Row label="Steam app ID">
+                <span className="font-mono">{entry.appId}</span>
+              </Row>
             )}
-            <Button asChild variant="ghost" size="sm">
-              <a href={`${REPO_URL}/blob/main/${entry.sourceFile}`}>
-                <Info aria-hidden /> This game's data file
-              </a>
-            </Button>
-          </div>
-        </aside>
+            {entry.kind === "program" && <Row label="Source">Not on Steam; run with Open With Hadron or hadron run</Row>}
+            <Row label="Graphics">
+              {entry.graphicsApis.map((g) => (
+                <div key={g}>
+                  {GRAPHICS_INFO[g].label}
+                  {GRAPHICS_INFO[g].path && <span className="text-muted-foreground"> → {GRAPHICS_INFO[g].path}</span>}
+                </div>
+              ))}
+            </Row>
+            <Row label="Architecture">{entry.arch === "unknown" ? <span className="text-muted-foreground">not known</span> : entry.arch}</Row>
+            {entry.engine && <Row label="Engine">{entry.engine}</Row>}
+            {entry.antiCheat && <Row label="Anti-cheat">{entry.antiCheat}</Row>}
+            <Row label="Latest version">
+              {summary.latestVersion ? (
+                <span className="font-mono">{summary.latestVersion}</span>
+              ) : (
+                <span className="text-muted-foreground">{summary.total ? "not given" : "none yet"}</span>
+              )}
+              {summary.latestVersion?.endsWith("-dev") && (
+                <span className="text-muted-foreground"> ({formatVersion(summary.latestVersion).toLowerCase()})</span>
+              )}
+            </Row>
+            <Row label="Last report">
+              <span className="font-mono">{summary.lastDate ?? "–"}</span>
+            </Row>
+            <Row label="Reports">
+              <RatingBar counts={summary.counts} total={summary.total} />
+            </Row>
+            {notes.length > 0 && (
+              <Row label="Notes">
+                {notes.map((n) => (
+                  <p key={n} className="max-w-[75ch] py-0.5">
+                    {n}
+                  </p>
+                ))}
+              </Row>
+            )}
+          </tbody>
+        </table>
+        <div className="hidden md:block">
+          <GameArt entry={entry} variant="header" className="w-full border" />
+          <p className="mt-1.5 text-[12px] text-muted-foreground">
+            <a className="hover:text-foreground hover:underline" href={`${REPO_URL}/blob/main/${entry.sourceFile}`}>
+              {entry.sourceFile}
+            </a>
+          </p>
+        </div>
       </div>
+
+      <section aria-labelledby="reports" className="mt-8">
+        <h2 id="reports" className="flex items-baseline justify-between border-b border-rule pb-1">
+          <span className="text-[15px] font-semibold">
+            Reports <span className="font-mono text-[13px] font-normal text-muted-foreground">{summary.total}</span>
+          </span>
+          <span className="text-[12px] text-muted-foreground">newest first</span>
+        </h2>
+        {entry.reports.length > 0 ? (
+          <div className="hidden grid-cols-[6.5rem_8.5rem_minmax(0,1fr)_9.5rem_9rem] gap-x-4 border-b py-1.5 sm:grid">
+            {["Date", "Hadron", "Mac", "Rating", "Reporter"].map((h, i) => (
+              <span key={h} className={i === 4 ? "label text-right" : "label"}>
+                {h}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        {entry.reports.map((r) => (
+          <ReportEntry key={r.id} report={r} />
+        ))}
+        {entry.reports.length === 0 && (
+          <p className="py-4 text-muted-foreground">
+            No reports yet.{" "}
+            <a className="text-primary underline" href={formUrl}>
+              Add the first
+            </a>
+            .
+          </p>
+        )}
+      </section>
     </div>
   );
 }

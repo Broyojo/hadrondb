@@ -8,6 +8,7 @@ export const catalog = { entries: buildCatalog(files) };
 
 export const REPO_URL = "https://github.com/Broyojo/hadrondb";
 export const HADRON_URL = "https://github.com/Broyojo/hadron";
+export const DOCS_URL = "https://docs.hadrondb.com";
 export const DISCORD_URL = "https://discord.gg/ShNTcxWjKN";
 export const REPORT_FORM_URL = `${REPO_URL}/issues/new?template=game-report.yml`;
 

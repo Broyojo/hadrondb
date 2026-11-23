@@ -2,50 +2,49 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Hadron's colours: ink #16181D, paper #F2F1EC, and the blue of its logo, #4D7CFF. Text colours
-   are darkened (light theme) or lightened (dark theme) from it to meet WCAG AA; tests/contrast.test.ts
-   checks the pairs. */
+/* Neutral greys, square corners, hairline rules. The one accent is the blue of Hadron's logo
+   (#4D7CFF), darkened or lightened for text; the rating colours carry the rest.
+   tests/contrast.test.ts checks the pairs. */
 :root {
-  --background: #f6f5f1;
+  --background: #ffffff;
   --foreground: #16181d;
-  --card: #ffffff;
+  --card: #f4f4f2;
   --card-foreground: #16181d;
   --popover: #ffffff;
   --popover-foreground: #16181d;
   --primary: #2f55d4;
   --primary-foreground: #ffffff;
-  --secondary: #ecebe5;
+  --secondary: #f4f4f2;
   --secondary-foreground: #16181d;
-  --muted: #ecebe5;
-  --muted-foreground: #575c66;
-  --accent: #e7ecfc;
+  --muted: #f4f4f2;
+  --muted-foreground: #5d6169;
+  --accent: #eef1fb;
   --accent-foreground: #1b3a9e;
-  --border: #dcdad1;
-  --input: #cfccc2;
+  --border: #e2e2de;
+  --rule: #16181d;
+  --input: #c4c4be;
   --ring: #4d7cff;
-  --brand: #4d7cff;
-  --radius: 0.75rem;
 }
 
 .dark {
-  --background: #111317;
-  --foreground: #f2f1ec;
-  --card: #1a1d23;
-  --card-foreground: #f2f1ec;
-  --popover: #1a1d23;
-  --popover-foreground: #f2f1ec;
-  --primary: #7c9cff;
+  --background: #111214;
+  --foreground: #ebebe7;
+  --card: #1a1b1f;
+  --card-foreground: #ebebe7;
+  --popover: #1a1b1f;
+  --popover-foreground: #ebebe7;
+  --primary: #8ea7ff;
   --primary-foreground: #0b1020;
-  --secondary: #23262d;
-  --secondary-foreground: #f2f1ec;
-  --muted: #23262d;
-  --muted-foreground: #a4a9b4;
-  --accent: #1f2740;
-  --accent-foreground: #cbd7ff;
-  --border: #2c3038;
-  --input: #3a3f49;
-  --ring: #7c9cff;
-  --brand: #4d7cff;
+  --secondary: #1a1b1f;
+  --secondary-foreground: #ebebe7;
+  --muted: #1a1b1f;
+  --muted-foreground: #9a9ea6;
+  --accent: #1c2238;
+  --accent-foreground: #c9d5ff;
+  --border: #2a2c31;
+  --rule: #ebebe7;
+  --input: #474a52;
+  --ring: #8ea7ff;
 }
 
 @theme inline {
@@ -64,16 +63,16 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
+  --color-rule: var(--rule);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-brand: var(--brand);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 @layer base {
@@ -87,54 +86,71 @@
     color-scheme: dark;
   }
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv11", "ss01";
+    @apply bg-background font-sans text-[14px] leading-normal text-foreground;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-ring;
+    @apply outline-2 outline-offset-1 outline-ring;
   }
   a {
-    text-underline-offset: 3px;
+    text-underline-offset: 2px;
+  }
+  select {
+    @apply h-8 appearance-none border border-input bg-background bg-no-repeat pr-7 pl-2 text-[13px] text-foreground;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+      right 12px center,
+      right 8px center;
+    background-size:
+      4px 4px,
+      4px 4px;
   }
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
-      animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
     }
   }
 }
 
-/* Long-form text on the "How to report" and About pages. */
 @layer components {
-  .prose-page {
-    @apply max-w-none text-[0.975rem] leading-7;
+  /* Small uppercase labels: column heads, keys, section names. */
+  .label {
+    @apply text-[11px] font-medium tracking-[0.06em] text-muted-foreground uppercase;
   }
-  .prose-page h2 {
-    @apply mt-10 mb-3 text-xl font-semibold tracking-tight;
+  /* Document pages: About, How to report. */
+  .doc {
+    @apply max-w-[66ch] text-[15px] leading-[1.65];
   }
-  .prose-page h3 {
-    @apply mt-6 mb-2 text-base font-semibold;
+  .doc h1 {
+    @apply text-[22px] leading-tight font-semibold;
   }
-  .prose-page p,
-  .prose-page ul,
-  .prose-page ol {
+  .doc h2 {
+    @apply mt-9 mb-2 border-b border-rule pb-1 text-[15px] font-semibold;
+  }
+  .doc p,
+  .doc ul,
+  .doc ol,
+  .doc dl {
     @apply my-3;
   }
-  .prose-page ul {
-    @apply list-disc pl-6;
+  .doc ul {
+    @apply list-disc pl-5;
   }
-  .prose-page ol {
-    @apply list-decimal pl-6;
+  .doc ol {
+    @apply list-decimal pl-5;
   }
-  .prose-page li {
+  .doc li {
     @apply my-1;
   }
-  .prose-page a {
-    @apply font-medium text-primary underline;
+  .doc a {
+    @apply text-primary underline;
   }
-  .prose-page code {
-    @apply rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em];
+  .doc code {
+    @apply font-mono text-[0.9em];
   }
 }

@@ -1,69 +1,50 @@
-import { CircleDashed } from "lucide-react";
-import { RATING_ICONS } from "@/components/rating-icons";
 import { RATINGS, RATING_LIST, type RatingId } from "@/lib/ratings";
 import { cn } from "@/lib/utils";
 
-
-export function RatingBadge({
-  rating,
-  size = "md",
-  className,
-}: {
-  rating?: RatingId;
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}) {
-  const sizes = {
-    sm: "gap-1 px-2 py-0.5 text-xs [&>svg]:size-3.5",
-    md: "gap-1.5 px-2.5 py-1 text-sm [&>svg]:size-4",
-    lg: "gap-2 px-3.5 py-1.5 text-base [&>svg]:size-5",
-  }[size];
-  if (!rating) {
-    return (
-      <span
-        className={cn("inline-flex items-center rounded-full border border-dashed font-medium text-muted-foreground", sizes, className)}
-      >
-        <CircleDashed aria-hidden />
-        No reports yet
-      </span>
-    );
-  }
-  const Icon = RATING_ICONS[rating];
+/** A square swatch in the rating's colour. */
+export function Swatch({ rating, className }: { rating?: RatingId; className?: string }) {
   return (
     <span
-      className={cn("inline-flex items-center rounded-full font-semibold whitespace-nowrap", sizes, className)}
-      style={{ color: `var(--rating-${rating}-fg)`, backgroundColor: `var(--rating-${rating}-bg)` }}
-    >
-      <Icon aria-hidden />
-      {RATINGS[rating].label}
+      aria-hidden
+      className={cn("inline-block size-2.5 shrink-0", !rating && "border border-muted-foreground", className)}
+      style={rating ? { backgroundColor: `var(--rating-${rating}-solid)` } : undefined}
+    />
+  );
+}
+
+/** Swatch and words. `full` uses the full label ("Runs perfectly"), otherwise the short word. */
+export function RatingMark({ rating, full = false, className }: { rating?: RatingId; full?: boolean; className?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-2 whitespace-nowrap", className)}>
+      <Swatch rating={rating} />
+      {rating ? (
+        <span title={full ? undefined : RATINGS[rating].label}>{full ? RATINGS[rating].label : RATINGS[rating].word}</span>
+      ) : (
+        <span className="text-muted-foreground">No reports</span>
+      )}
     </span>
   );
 }
 
-/** How a game's reports divide over the ratings, as a bar with a text equivalent. */
+/** How a game's reports divide over the ratings: a flat bar and its numbers. */
 export function RatingBar({ counts, total }: { counts: Record<RatingId, number>; total: number }) {
-  if (total === 0) return null;
+  if (total === 0) return <span className="text-muted-foreground">None yet</span>;
   const parts = RATING_LIST.filter((r) => counts[r.id] > 0);
-  const text = parts.map((r) => `${counts[r.id]} ${r.label}`).join(", ");
   return (
-    <div>
-      <div className="flex h-2.5 w-full gap-0.5 overflow-hidden rounded-full" role="img" aria-label={`Reports: ${text}`}>
+    <span className="flex flex-col gap-1.5">
+      <span className="flex h-1.5 w-full max-w-60" aria-hidden>
         {parts.map((r) => (
-          <div
-            key={r.id}
-            className="h-full first:rounded-l-full last:rounded-r-full"
-            style={{ width: `${(counts[r.id] / total) * 100}%`, backgroundColor: `var(--rating-${r.id}-solid)` }}
-          />
+          <span key={r.id} style={{ width: `${(counts[r.id] / total) * 100}%`, backgroundColor: `var(--rating-${r.id}-solid)` }} />
         ))}
-      </div>
-      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      </span>
+      <span className="flex flex-wrap gap-x-3">
         {parts.map((r) => (
-          <li key={r.id} className="flex items-center gap-1.5">
-            <span className="size-2 rounded-full" style={{ backgroundColor: `var(--rating-${r.id}-solid)` }} aria-hidden />
-            {r.label}: {counts[r.id]}
-          </li>
+          <span key={r.id} className="inline-flex items-center gap-1.5">
+            <Swatch rating={r.id} className="size-2" />
+            <span className="font-mono text-[12px]">{counts[r.id]}</span> {r.word.toLowerCase()}
+          </span>
         ))}
-      </ul>
-    </div>
+      </span>
+    </span>
   );
 }

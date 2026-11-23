@@ -9,6 +9,8 @@ export interface RatingInfo {
   /** Rank, 1 is best. */
   rank: number;
   label: string;
+  /** One or two words, for table cells. */
+  word: string;
   /** One line, used in the report form's dropdown and next to the badge. */
   short: string;
   /** What a report with this rating means, for the "How to report" page. */
@@ -18,6 +20,7 @@ export interface RatingInfo {
 export const RATINGS: Record<RatingId, RatingInfo> = {
   perfect: {
     id: "perfect",
+    word: "Perfect",
     rank: 1,
     label: "Runs perfectly",
     short: "Plays as it does on Windows, nothing to work around",
@@ -27,6 +30,7 @@ export const RATINGS: Record<RatingId, RatingInfo> = {
   },
   well: {
     id: "well",
+    word: "Runs well",
     rank: 2,
     label: "Runs well",
     short: "Plays well; small issues, if any, that don't get in the way",
@@ -36,6 +40,7 @@ export const RATINGS: Record<RatingId, RatingInfo> = {
   },
   issues: {
     id: "issues",
+    word: "Issues",
     rank: 3,
     label: "Playable with issues",
     short: "Playable, but with issues you will notice",
@@ -45,6 +50,7 @@ export const RATINGS: Record<RatingId, RatingInfo> = {
   },
   unplayable: {
     id: "unplayable",
+    word: "Unplayable",
     rank: 4,
     label: "Starts but unplayable",
     short: "Starts, maybe reaches the menu, but can't be played",
@@ -54,6 +60,7 @@ export const RATINGS: Record<RatingId, RatingInfo> = {
   },
   broken: {
     id: "broken",
+    word: "Doesn't run",
     rank: 5,
     label: "Doesn't run",
     short: "Doesn't start, or never gets to its menu",
@@ -96,7 +103,7 @@ export const RATING_COLORS: Record<"light" | "dark", Record<RatingId, RatingColo
   },
 };
 
-/** The card background each theme draws ratings on, for the non-text contrast check. */
-export const CARD_BACKGROUND = { light: "#FFFFFF", dark: "#1A1D23" } as const;
+/** The table-head and hover background each theme draws ratings on, for the non-text contrast check. */
+export const CARD_BACKGROUND = { light: "#F4F4F2", dark: "#1A1B1F" } as const;
 /** The page background. */
-export const PAGE_BACKGROUND = { light: "#F6F5F1", dark: "#111317" } as const;
+export const PAGE_BACKGROUND = { light: "#FFFFFF", dark: "#111214" } as const;

@@ -3,43 +3,39 @@ import type { Entry } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 
 function initials(name: string): string {
-  const words = name.replace(/[^\p{L}\p{N} ]/gu, " ").split(/\s+/).filter(Boolean);
+  const words = name.replace(/[^\p{L}\p{N} ]/gu, " ").split(/\s+/).filter((w) => w && !/^(of|the|a|an)$/i.test(w));
   return (words.length > 1 ? words[0][0] + words[1][0] : (words[0] ?? "?").slice(0, 2)).toUpperCase();
 }
 
-/** Steam's header image (460x215), or a plain tile with the game's initials when there is none. */
-export function GameImage({ entry, className, eager = false }: { entry: Entry; className?: string; eager?: boolean }) {
-  const [failed, setFailed] = useState(false);
-  const box = cn("relative aspect-[460/215] w-full overflow-hidden bg-muted", className);
-  if (!entry.image || failed) {
+/**
+ * Steam art in a fixed box: the small capsule for table rows, the header on a game's page.
+ * Tries each source in turn and ends with a flat tile of the game's initials.
+ */
+export function GameArt({ entry, variant, className }: { entry: Entry; variant: "thumb" | "header"; className?: string }) {
+  const sources = [...new Set((variant === "thumb" ? [entry.thumb, entry.image] : [entry.image]).filter(Boolean))] as string[];
+  const [index, setIndex] = useState(0);
+  const box = cn("relative shrink-0 overflow-hidden bg-muted", variant === "thumb" ? "aspect-[184/69]" : "aspect-[460/215]", className);
+  const src = sources[index];
+  if (!src) {
     return (
-      <div className={cn(box, "flex items-center justify-center bg-[#16181D]")} aria-hidden>
-        <div
-          className="absolute inset-0 opacity-60"
-          style={{ background: "radial-gradient(120% 90% at 0% 100%, #2a3a78 0%, transparent 60%)" }}
-        />
-        <span className="relative text-3xl font-semibold tracking-tight text-[#F2F1EC]/90">{initials(entry.name)}</span>
-        {entry.kind === "program" && (
-          <span className="absolute right-2 bottom-2 rounded bg-black/40 px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-[#F2F1EC] uppercase">
-            Not on Steam
-          </span>
-        )}
-      </div>
+      <span className={cn(box, "flex items-center justify-center bg-[#16181D] font-mono text-[#F2F1EC]")} aria-hidden>
+        <span className={variant === "thumb" ? "text-[11px]" : "text-2xl"}>{initials(entry.name)}</span>
+      </span>
     );
   }
   return (
-    <div className={box}>
+    <span className={cn(box, "block")}>
       <img
-        src={entry.image}
+        src={src}
         alt=""
-        width={460}
-        height={215}
-        loading={eager ? "eager" : "lazy"}
+        width={variant === "thumb" ? 184 : 460}
+        height={variant === "thumb" ? 69 : 215}
+        loading={variant === "thumb" ? "lazy" : "eager"}
         decoding="async"
         referrerPolicy="no-referrer"
-        onError={() => setFailed(true)}
+        onError={() => setIndex((i) => i + 1)}
         className="size-full object-cover"
       />
-    </div>
+    </span>
   );
 }

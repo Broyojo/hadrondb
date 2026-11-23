@@ -104,10 +104,13 @@ support (`node scripts/validate-data.ts`).
 
 ## How the site works
 
-Vite, React 19, TypeScript, Tailwind CSS 4 and shadcn/ui components (Radix, copied into
-`src/components/ui/`). The data files are bundled into the page at build time; there is no
-server, no analytics, no cookies, and no external fonts or scripts. Steam header images load
-from Steam's CDN, without a referrer, with a drawn tile when one is missing.
+Vite, React 19, TypeScript, Tailwind CSS 4, and a few shadcn/ui components (Button, Input,
+Label; copied into `src/components/ui/` and restyled). The look is a dense table: square
+corners, hairline rules, neutral greys, one accent from the Hadron logo's blue, and the rating
+colours. Type is IBM Plex Sans and IBM Plex Mono, self-hosted from `@fontsource` packages. The
+data files are bundled into the page at build time; there is no server, no analytics, no
+cookies, and nothing loaded from elsewhere except Steam's capsule and header images, which load
+from Steam's CDN without a referrer, with a drawn tile when one is missing.
 
 **Routing**: real paths (`/game/620`, `/program/unvanquished`, `/report`, `/about`) with React
 Router's browser router. GitHub Pages only serves files, so after the build

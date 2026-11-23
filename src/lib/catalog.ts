@@ -16,8 +16,10 @@ export interface Entry {
   slug?: string;
   storeUrl?: string;
   website?: string;
-  /** Steam's header image, or undefined for programs. */
+  /** Steam's header image (460x215), or undefined for programs. */
   image?: string;
+  /** Steam's small capsule (184x69) for table rows; falls back to `image`. */
+  thumb?: string;
   hasMacVersion: boolean;
   graphicsApis: SteamGame["graphicsApis"];
   arch: SteamGame["arch"];
@@ -30,6 +32,10 @@ export interface Entry {
 
 export function steamHeaderUrl(appId: number): string {
   return `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/header.jpg`;
+}
+
+export function steamCapsuleUrl(appId: number): string {
+  return `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/capsule_184x69.jpg`;
 }
 
 export function steamStoreUrl(appId: number): string {
@@ -46,6 +52,8 @@ export function steamEntry(game: SteamGame, sourceFile: string): Entry {
     appId: game.appId,
     storeUrl: steamStoreUrl(game.appId),
     image: game.headerImage ?? steamHeaderUrl(game.appId),
+    // Games with a moved header image have no capsule at the old path either.
+    thumb: game.headerImage ?? steamCapsuleUrl(game.appId),
     hasMacVersion: game.hasMacVersion ?? false,
     graphicsApis: game.graphicsApis,
     arch: game.arch,

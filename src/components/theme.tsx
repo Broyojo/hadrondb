@@ -1,17 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 type Theme = "system" | "light" | "dark";
 const KEY = "hadrondb-theme";
+const NEXT: Record<Theme, Theme> = { system: "light", light: "dark", dark: "system" };
 
 function readTheme(): Theme {
   try {
@@ -27,8 +19,9 @@ function apply(theme: Theme) {
   document.documentElement.classList.toggle("dark", dark);
 }
 
-function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(readTheme);
+/** One button that steps through system, light and dark. */
+export function ThemeToggle() {
+  const [theme, setTheme] = useState<Theme>(readTheme);
   useEffect(() => {
     apply(theme);
     if (theme !== "system") return;
@@ -37,42 +30,26 @@ function useTheme() {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, [theme]);
-  const setTheme = useCallback((t: Theme) => {
+  const choose = () => {
+    const t = NEXT[theme];
     try {
       if (t === "system") localStorage.removeItem(KEY);
       else localStorage.setItem(KEY, t);
     } catch {
       // Storage can be unavailable (private windows); the choice then lasts for this page only.
     }
-    setThemeState(t);
-  }, []);
-  return { theme, setTheme };
-}
-
-export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+    setTheme(t);
+  };
+  const Icon = theme === "light" ? Sun : theme === "dark" ? Moon : Monitor;
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={`Theme: ${theme}. Change theme`}>
-          <Sun className="dark:hidden" aria-hidden />
-          <Moon className="hidden dark:block" aria-hidden />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
-        <DropdownMenuRadioGroup value={theme} onValueChange={(v) => setTheme(v as Theme)}>
-          <DropdownMenuRadioItem value="system">
-            <Monitor aria-hidden /> System
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="light">
-            <Sun aria-hidden /> Light
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="dark">
-            <Moon aria-hidden /> Dark
-          </DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      type="button"
+      onClick={choose}
+      className="inline-flex size-8 items-center justify-center text-muted-foreground hover:text-foreground"
+      aria-label={`Theme: ${theme}. Switch to ${NEXT[theme]}`}
+      title={`Theme: ${theme}`}
+    >
+      <Icon className="size-4" aria-hidden />
+    </button>
   );
 }

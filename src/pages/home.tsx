@@ -1,12 +1,10 @@
 import { useMemo } from "react";
-import { Link, useSearchParams } from "react-router";
-import { ArrowRight } from "lucide-react";
-import { GameCard } from "@/components/game-card";
+import { useSearchParams } from "react-router";
 import { FilterBar } from "@/components/filters";
+import { GameTable } from "@/components/game-table";
+import { catalog, HADRON_URL, REPORT_FORM_URL } from "@/data";
+import { applyFilters, filtersFromParams, filtersToParams, type Filters, type Sort } from "@/lib/filters";
 import { useTitle } from "@/lib/use-title";
-import { Button } from "@/components/ui/button";
-import { catalog, REPORT_FORM_URL } from "@/data";
-import { applyFilters, filtersFromParams, filtersToParams, type Filters } from "@/lib/filters";
 import { compareVersions, isRelease } from "@/lib/versions";
 
 export function HomePage() {
@@ -20,49 +18,36 @@ export function HomePage() {
   }, []);
   const reports = catalog.entries.reduce((n, e) => n + e.reports.length, 0);
   const onChange = (f: Filters) => setParams(filtersToParams(f), { replace: true, preventScrollReset: true });
+  const onSort = (sort: Sort) =>
+    onChange({ ...filters, sort, reverse: filters.sort === sort ? !filters.reverse : false });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-16">
-      <section className="py-10 sm:py-14">
-        <p className="mb-3 text-sm font-medium text-primary">Community compatibility reports</p>
-        <h1 className="max-w-3xl text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          How Windows games run on your Mac with Hadron
-        </h1>
-        <p className="mt-4 max-w-2xl text-base text-pretty text-muted-foreground sm:text-lg">
-          Hadron plays Windows games from the Mac Steam client on Apple silicon. HadronDB collects what players find:{" "}
-          {catalog.entries.length} games and programs, {reports} reports so far.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild>
-            <a href={REPORT_FORM_URL}>Report a game</a>
-          </Button>
-          <Button asChild variant="outline">
-            <Link to="/about">
-              What is Hadron? <ArrowRight aria-hidden />
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      <FilterBar filters={filters} onChange={onChange} versions={versions} resultCount={rows.length} />
-
+    <div className="mx-auto max-w-[1200px] px-4 pt-4 pb-12">
+      <h1 className="sr-only">Games</h1>
+      <p className="mb-3 text-[13px] text-muted-foreground">
+        <span className="font-mono text-foreground">{catalog.entries.length}</span> games ·{" "}
+        <span className="font-mono text-foreground">{reports}</span> reports.{" "}
+        <a className="underline hover:text-foreground" href={HADRON_URL}>
+          Hadron
+        </a>{" "}
+        runs Windows games from the Mac Steam client on Apple silicon.
+      </p>
+      <FilterBar filters={filters} onChange={onChange} versions={versions} />
+      <p className="mt-2 min-h-5 text-[12px] text-muted-foreground" role="status" aria-live="polite">
+        {rows.length === catalog.entries.length
+          ? ""
+          : `${rows.length} of ${catalog.entries.length} games${filters.chip || filters.version ? ", rated from the matching reports" : ""}`}
+      </p>
       {rows.length > 0 ? (
-        <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Games">
-          {rows.map((row) => (
-            <GameCard key={row.entry.key} row={row} />
-          ))}
-        </ul>
+        <GameTable rows={rows} filters={filters} onSort={onSort} />
       ) : (
-        <div className="mt-6 rounded-xl border border-dashed p-10 text-center">
-          <p className="font-medium">No games match.</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Tried one that isn't here?{" "}
-            <a className="font-medium text-primary underline" href={REPORT_FORM_URL}>
-              Add a report
-            </a>
-            .
-          </p>
-        </div>
+        <p className="border-t border-rule py-6 text-muted-foreground">
+          No game matches. Tried one that isn't here?{" "}
+          <a className="text-primary underline" href={REPORT_FORM_URL}>
+            Add a report
+          </a>
+          .
+        </p>
       )}
     </div>
   );

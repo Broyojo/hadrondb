@@ -3,13 +3,15 @@
 
 import type { Entry } from "./catalog.ts";
 import { chipFamily } from "./chips.ts";
-import type { GraphicsApi } from "./graphics.ts";
+import { GRAPHICS_INFO, type GraphicsApi } from "./graphics.ts";
 import { RATINGS, RATING_IDS, type RatingId } from "./ratings.ts";
 import type { Report } from "./schema.ts";
 import { summarize, type Summary } from "./summary.ts";
-import { parseVersion } from "./versions.ts";
+import { compareVersions, parseVersion } from "./versions.ts";
 
-export const SORTS = ["recent", "rating", "name"] as const;
+/** Table columns the list can be sorted by. Each has a natural order (newest, best, A to Z,
+ * most); `reverse` flips it. */
+export const SORTS = ["recent", "rating", "name", "api", "version", "reports"] as const;
 export type Sort = (typeof SORTS)[number];
 
 /** "dev" matches every development build. */
@@ -22,9 +24,10 @@ export interface Filters {
   chip?: string;
   version?: string;
   sort: Sort;
+  reverse: boolean;
 }
 
-export const EMPTY_FILTERS: Filters = { q: "", ratings: [], sort: "recent" };
+export const EMPTY_FILTERS: Filters = { q: "", ratings: [], sort: "recent", reverse: false };
 
 export interface Row {
   entry: Entry;
@@ -71,21 +74,34 @@ export function applyFilters(entries: Entry[], f: Filters): Row[] {
     if (f.ratings.length > 0 && !(summary.rating && f.ratings.includes(summary.rating))) continue;
     rows.push({ entry, summary });
   }
-  return sortRows(rows, f.sort);
+  return sortRows(rows, f.sort, f.reverse);
 }
 
 function rank(s: Summary): number {
   return s.rating ? RATINGS[s.rating].rank : RATING_IDS.length + 1;
 }
 
-export function sortRows(rows: Row[], sort: Sort): Row[] {
+export function sortRows(rows: Row[], sort: Sort, reverse = false): Row[] {
   const byName = (a: Row, b: Row) => a.entry.name.localeCompare(b.entry.name, "en");
   const byRecent = (a: Row, b: Row) => (b.summary.lastDate ?? "").localeCompare(a.summary.lastDate ?? "");
-  return [...rows].sort((a, b) => {
-    if (sort === "name") return byName(a, b);
-    if (sort === "rating") return rank(a.summary) - rank(b.summary) || byRecent(a, b) || byName(a, b);
-    return byRecent(a, b) || byName(a, b);
-  });
+  const primary = (a: Row, b: Row): number => {
+    switch (sort) {
+      case "name":
+        return byName(a, b);
+      case "rating":
+        return rank(a.summary) - rank(b.summary);
+      case "api":
+        return GRAPHICS_INFO[a.entry.graphicsApis[0]].label.localeCompare(GRAPHICS_INFO[b.entry.graphicsApis[0]].label, "en", { numeric: true });
+      case "version":
+        return compareVersions(b.summary.latestVersion ?? "unknown", a.summary.latestVersion ?? "unknown");
+      case "reports":
+        return b.summary.total - a.summary.total;
+      default:
+        return byRecent(a, b);
+    }
+  };
+  const sign = reverse ? -1 : 1;
+  return [...rows].sort((a, b) => sign * primary(a, b) || byRecent(a, b) || byName(a, b));
 }
 
 /** Filters to and from the page's query string, so that a filtered list can be linked to. */
@@ -101,6 +117,7 @@ export function filtersFromParams(p: URLSearchParams): Filters {
     chip: p.get("chip") ?? undefined,
     version: p.get("version") ?? undefined,
     sort: (SORTS as readonly string[]).includes(sort ?? "") ? (sort as Sort) : "recent",
+    reverse: p.get("order") === "reverse",
   };
 }
 
@@ -112,5 +129,6 @@ export function filtersToParams(f: Filters): URLSearchParams {
   if (f.chip) p.set("chip", f.chip);
   if (f.version) p.set("version", f.version);
   if (f.sort !== "recent") p.set("sort", f.sort);
+  if (f.reverse) p.set("order", "reverse");
   return p;
 }

@@ -97,6 +97,15 @@ describe("filters", () => {
     expect(rows.map((x) => x.entry.name)).toEqual(["Portal 2", "Teardown", "Pokémon™ Thing"]);
   });
 
+  it("sorts by any column, and in reverse", () => {
+    const names = (sort: "version" | "reports" | "api", reverse = false) =>
+      applyFilters(entries, { ...EMPTY_FILTERS, sort, reverse }).map((x) => x.entry.name);
+    expect(names("reports")).toEqual(["Teardown", "Portal 2", "Pokémon™ Thing"]);
+    expect(names("reports", true)).toEqual(["Pokémon™ Thing", "Portal 2", "Teardown"]);
+    expect(names("api")).toEqual(["Portal 2", "Pokémon™ Thing", "Teardown"]);
+    expect(names("version")[2]).toBe("Pokémon™ Thing");
+  });
+
   it("filters by graphics API and rating", () => {
     expect(applyFilters(entries, { ...EMPTY_FILTERS, api: "D3D12" }).map((x) => x.entry.name)).toEqual(["Teardown"]);
     expect(applyFilters(entries, { ...EMPTY_FILTERS, ratings: ["broken"] }).map((x) => x.entry.name)).toEqual(["Teardown"]);
@@ -111,7 +120,7 @@ describe("filters", () => {
   });
 
   it("round-trips through the query string", () => {
-    const f = { q: "portal", ratings: ["well" as const, "issues" as const], api: "D3D9" as const, chip: "M5", version: "0.3.3", sort: "name" as const };
+    const f = { q: "portal", ratings: ["well" as const, "issues" as const], api: "D3D9" as const, chip: "M5", version: "0.3.3", sort: "name" as const, reverse: true };
     expect(filtersFromParams(filtersToParams(f))).toEqual(f);
     expect(filtersFromParams(new URLSearchParams("rating=gold,well&sort=stars"))).toEqual({ ...EMPTY_FILTERS, ratings: ["well"] });
   });
