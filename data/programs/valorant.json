@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schema/program.schema.json",
+  "slug": "valorant",
+  "name": "VALORANT",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Unreal Engine 4",
+  "antiCheat": "Riot Vanguard (kernel-level)",
+  "website": "https://playvalorant.com/",
+  "reports": [
+    {
+      "id": "2026-11-23-community",
+      "rating": "broken",
+      "date": "2026-11-23",
+      "hadronVersion": "unknown",
+      "reporter": "community",
+      "notes": "Relayed from Hadron's Discord. Not on Steam (Riot Games). Riot Vanguard is a kernel-level anti-cheat, which Hadron does not support."
+    }
+  ]
+}

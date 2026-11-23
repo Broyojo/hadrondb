@@ -1,0 +1,20 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1222730,
+  "name": "STAR WARS: Squadrons",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "antiCheat": "Easy Anti-Cheat",
+  "reports": [
+    {
+      "id": "2026-11-23-community",
+      "rating": "broken",
+      "date": "2026-11-23",
+      "hadronVersion": "unknown",
+      "reporter": "community",
+      "notes": "Relayed from Hadron's Discord. The game uses Easy Anti-Cheat, which Hadron does not support."
+    }
+  ]
+}

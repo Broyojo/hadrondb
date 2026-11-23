@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 346010,
+  "name": "Besiege",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Unity",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-05-community",
+      "rating": "issues",
+      "date": "2026-10-05",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "community",
+      "system": {
+        "chip": "M5 Max"
+      },
+      "graphicsApi": "D3D11",
+      "issues": [
+        "Wine's file-browser windows appear: the game calls ShellExecute three times and each starts one.",
+        "Threads time out on Wine's loader lock when it quits."
+      ],
+      "notes": "Played for a few minutes on the first outside tester's Mac, DXMT, clean log.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        }
+      ]
+    }
+  ]
+}

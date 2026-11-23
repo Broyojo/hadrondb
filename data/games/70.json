@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 70,
+  "name": "Half-Life",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "32-bit",
+  "engine": "GoldSrc",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-11-maintainer",
+      "rating": "issues",
+      "date": "2026-10-11",
+      "hadronVersion": "0.3.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "OpenGL",
+      "issues": [
+        "A little laggy at times, not investigated."
+      ],
+      "notes": "OpenGL on Zink, played for a few minutes. The intro video was black until OpenGL windows were made opaque; it plays since 2026-10-11.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #32"
+        }
+      ]
+    }
+  ]
+}

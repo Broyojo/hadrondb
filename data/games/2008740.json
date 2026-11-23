@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 2008740,
+  "name": "Wing Commander III: Heart of the Tiger: 30th Anniversary Edition",
+  "graphicsApis": [
+    "unknown"
+  ],
+  "arch": "unknown",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2008740/3900fb9a429df92ade69f05085ee576fa7f8bc10/header.jpg",
+  "reports": [
+    {
+      "id": "2026-11-23-community",
+      "rating": "unplayable",
+      "date": "2026-11-23",
+      "hadronVersion": "unknown",
+      "reporter": "community",
+      "notes": "Relayed from Hadron's Discord. Starts, then crashes when a mission starts.",
+      "followUp": "Under investigation."
+    }
+  ]
+}

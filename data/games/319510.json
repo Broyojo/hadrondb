@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 319510,
+  "name": "Five Nights at Freddy's",
+  "graphicsApis": [
+    "D3D9"
+  ],
+  "arch": "32-bit",
+  "engine": "Clickteam Fusion",
+  "reports": [
+    {
+      "id": "2026-09-30-maintainer",
+      "rating": "well",
+      "date": "2026-09-30",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D9",
+      "gameSettings": "Fullscreen, 1280x800",
+      "issues": [
+        "The office edges are drawn differently from Wine's own Direct3D 9: a ~26-pixel black band at the right edge, and a smeared left edge in one capture. Cosmetic."
+      ],
+      "notes": "Menu renders and plays; fullscreen is centred. Fullscreen sets a real 1280x800 display mode (Cmd-Tab leaves it), and external displays stay on.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #15"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+name: Game report
+description: Tell HadronDB how a Windows game or program runs for you on Hadron.
+title: "[Report] "
+labels: ["report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing. A maintainer reads each report and, once it is accepted, it is added to HadronDB with your GitHub user name.
+
+        **Leave out personal details**: no real names, e-mail addresses, Steam account names or serial numbers. Hadron's own report file (**Save a report**, or `hadron report`) takes your user name and home folder out of its logs; attach it to an issue in the [Hadron repository](https://github.com/Broyojo/hadron/issues) if you want a bug looked at. This form is for the compatibility database.
+
+  - type: input
+    id: name
+    attributes:
+      label: Game or program
+      description: The name as the Steam store shows it, or the program's name if it isn't on Steam.
+      placeholder: Portal 2
+    validations:
+      required: true
+
+  - type: input
+    id: app-id
+    attributes:
+      label: Steam app ID
+      description: The number in the game's store page address (store.steampowered.com/app/**620**/). Leave it empty for a program that isn't on Steam.
+      placeholder: "620"
+    validations:
+      required: false
+
+  - type: input
+    id: website
+    attributes:
+      label: Website (programs not on Steam)
+      description: Only for programs that aren't on Steam, an https:// address where people can get it.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Rating
+      description: How it ran for you. The "How to report" page on HadronDB explains each rating.
+      options:
+        - "Runs perfectly: plays as it does on Windows, nothing to work around"
+        - "Runs well: plays well; small issues, if any, that don't get in the way"
+        - "Playable with issues: playable, but with issues you will notice"
+        - "Starts but unplayable: starts, maybe reaches the menu, but can't be played"
+        - "Doesn't run: doesn't start, or never gets to its menu"
+    validations:
+      required: true
+
+  - type: input
+    id: hadron-version
+    attributes:
+      label: Hadron version
+      description: "`hadron status` prints it, and so does Hadron's About window."
+      placeholder: 0.3.3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: graphics-api
+    attributes:
+      label: Graphics API
+      description: What the game renders with, if you know. Its store page or PCGamingWiki usually says.
+      options:
+        - Direct3D 9
+        - Direct3D 10
+        - Direct3D 11
+        - Direct3D 12
+        - Vulkan
+        - OpenGL
+        - Other
+        - Not known
+    validations:
+      required: false
+
+  - type: dropdown
+    id: arch
+    attributes:
+      label: 32-bit or 64-bit
+      description: Whether the game is a 32-bit or a 64-bit program, if you know.
+      options:
+        - 64-bit
+        - 32-bit
+        - Not known
+    validations:
+      required: false
+
+  - type: input
+    id: anti-cheat
+    attributes:
+      label: Anti-cheat
+      description: The anti-cheat the game uses, if any (Easy Anti-Cheat, BattlEye, VAC).
+    validations:
+      required: false
+
+  - type: input
+    id: mac-model
+    attributes:
+      label: Mac model
+      description: Apple menu > About This Mac.
+      placeholder: MacBook Pro 14-inch (2023)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: chip
+    attributes:
+      label: Chip
+      options:
+        - M1
+        - M1 Pro
+        - M1 Max
+        - M1 Ultra
+        - M2
+        - M2 Pro
+        - M2 Max
+        - M2 Ultra
+        - M3
+        - M3 Pro
+        - M3 Max
+        - M3 Ultra
+        - M4
+        - M4 Pro
+        - M4 Max
+        - M5
+        - M5 Pro
+        - M5 Max
+        - M5 Ultra
+        - Other or not listed
+    validations:
+      required: true
+
+  - type: input
+    id: ram
+    attributes:
+      label: Memory (GB)
+      placeholder: "16"
+    validations:
+      required: false
+
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: 27.0.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: retina
+    attributes:
+      label: Retina mode
+      description: Hadron gives games the display's full resolution. If you turned that off (RetinaMode=n in the game's Wine prefix), say so.
+      options:
+        - On (Hadron's default)
+        - Off (RetinaMode=n)
+        - Not known
+    validations:
+      required: false
+
+  - type: input
+    id: launch-options
+    attributes:
+      label: Launch options and settings
+      description: Steam launch options, as plain NAME=value words, and any games.conf lines you used. Leave it empty if you changed nothing.
+      placeholder: HADRON_PRECISE_SCROLLING=1 -novid
+    validations:
+      required: false
+
+  - type: input
+    id: game-settings
+    attributes:
+      label: In-game settings
+      description: Resolution, quality preset, renderer, window mode.
+      placeholder: 1920x1080, High, fullscreen
+    validations:
+      required: false
+
+  - type: input
+    id: performance
+    attributes:
+      label: Frame rate
+      description: About how many frames per second, and how smooth it felt.
+      placeholder: About 60 fps in levels, short drops when loading
+    validations:
+      required: false
+
+  - type: textarea
+    id: issues
+    attributes:
+      label: Issues
+      description: One problem per line.
+      placeholder: |
+        Intro video is black
+        Crashes when changing resolution
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: What happened
+      description: What you did and what you saw. How far did you get, and for how long did you play? Anything that helped?
+    validations:
+      required: true
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Links
+      description: A Hadron issue, a Discord thread, a video. One https:// address per line.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: This report has no personal details in it, and I agree to it being published under CC BY 4.0.
+          required: true

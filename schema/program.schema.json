@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "graphicsApis": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "D3D9",
+          "D3D10",
+          "D3D11",
+          "D3D12",
+          "Vulkan",
+          "OpenGL",
+          "other",
+          "unknown"
+        ]
+      },
+      "description": "The game's renderers, its default first"
+    },
+    "arch": {
+      "type": "string",
+      "enum": [
+        "32-bit",
+        "64-bit",
+        "unknown"
+      ]
+    },
+    "engine": {
+      "type": "string",
+      "minLength": 1
+    },
+    "antiCheat": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tips": {
+      "description": "Advice that holds across reports",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$",
+            "description": "Unique within the file; reports from the issue form use issue-<number>"
+          },
+          "rating": {
+            "type": "string",
+            "enum": [
+              "perfect",
+              "well",
+              "issues",
+              "unplayable",
+              "broken"
+            ]
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+            "description": "When the game was tried (or, if unknown, when the report was recorded)"
+          },
+          "hadronVersion": {
+            "type": "string"
+          },
+          "reporter": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$"
+          },
+          "system": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "description": "Mac model, e.g. \"MacBook Pro 14-inch (2023)\"",
+                "type": "string",
+                "minLength": 1
+              },
+              "chip": {
+                "type": "string",
+                "pattern": "^M[1-9]\\d?( Pro| Max| Ultra)?$"
+              },
+              "ramGB": {
+                "description": "Unified memory in GB",
+                "type": "integer",
+                "minimum": 4,
+                "maximum": 1024
+              },
+              "macos": {
+                "type": "string",
+                "pattern": "^\\d{2}(\\.\\d+){0,2}$"
+              }
+            },
+            "additionalProperties": false
+          },
+          "graphicsApi": {
+            "description": "The API this run used, when the game has several",
+            "type": "string",
+            "enum": [
+              "D3D9",
+              "D3D10",
+              "D3D11",
+              "D3D12",
+              "Vulkan",
+              "OpenGL",
+              "other",
+              "unknown"
+            ]
+          },
+          "retinaMode": {
+            "description": "on is Hadron's default; off is RetinaMode=n",
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          },
+          "launchOptions": {
+            "description": "Steam launch options or games.conf settings used",
+            "type": "string",
+            "minLength": 1
+          },
+          "gameSettings": {
+            "description": "In-game settings: resolution, quality, renderer",
+            "type": "string",
+            "minLength": 1
+          },
+          "performance": {
+            "description": "Frame rate and smoothness",
+            "type": "string",
+            "minLength": 1
+          },
+          "issues": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": "string",
+            "minLength": 1
+          },
+          "followUp": {
+            "description": "What happens next: a fix on the way, a retest wanted",
+            "type": "string",
+            "minLength": 1
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "issue",
+                    "pull",
+                    "discord",
+                    "doc",
+                    "other"
+                  ]
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "type",
+                "url"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "rating",
+          "date",
+          "hadronVersion",
+          "reporter"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "website": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "graphicsApis",
+    "arch",
+    "reports"
+  ],
+  "additionalProperties": false,
+  "$id": "https://hadrondb.com/schema/program.schema.json",
+  "title": "HadronDB program not on Steam"
+}

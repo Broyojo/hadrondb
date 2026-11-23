@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 620,
+  "name": "Portal 2",
+  "graphicsApis": [
+    "D3D9"
+  ],
+  "arch": "32-bit",
+  "engine": "Source",
+  "reports": [
+    {
+      "id": "2026-11-16-maintainer",
+      "rating": "issues",
+      "date": "2026-11-16",
+      "hadronVersion": "0.3.3",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D9",
+      "issues": [
+        "Changing the resolution while the game runs in a window can leave the window black while the sound loops (mtld3d's submit thread crashes)."
+      ],
+      "notes": "Reproduced on a Retina display in Video options: borderless window at native resolution, then \"Run in a window\", then a lower resolution. The window goes black and the sound loops.",
+      "followUp": "Fixed upstream in mtld3d 0.15; it reaches Hadron with an mtld3d update.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/177",
+          "title": "Windowed resolution change leaves an empty window"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-12-maintainer",
+      "rating": "well",
+      "date": "2026-10-12",
+      "hadronVersion": "0.3.0-dev",
+      "reporter": "maintainer",
+      "system": {
+        "chip": "M5",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "notes": "Steam launch and focus regression checks passed in two owner-led runs.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #35"
+        }
+      ]
+    },
+    {
+      "id": "2026-09-30-maintainer",
+      "rating": "well",
+      "date": "2026-09-30",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D9",
+      "issues": [
+        "With an external display, the game opens on the main (menu-bar) display, and moving a running game between displays is unreliable."
+      ],
+      "notes": "Plays fully from Mac Steam through Hadron.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        }
+      ]
+    }
+  ]
+}

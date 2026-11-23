@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 2358720,
+  "name": "Black Myth: Wukong",
+  "graphicsApis": [
+    "D3D12"
+  ],
+  "arch": "64-bit",
+  "engine": "Unreal Engine 5",
+  "reports": [
+    {
+      "id": "2026-11-23-community",
+      "rating": "broken",
+      "date": "2026-11-23",
+      "hadronVersion": "unknown",
+      "reporter": "community",
+      "notes": "Relayed from Hadron's Discord. Doesn't start: its fixed-base executable collides with where the main thread's stack is placed.",
+      "followUp": "A fix is planned for Hadron 0.4.0."
+    }
+  ]
+}

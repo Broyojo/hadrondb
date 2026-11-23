@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1962700,
+  "name": "Subnautica 2",
+  "graphicsApis": [
+    "D3D12"
+  ],
+  "arch": "64-bit",
+  "engine": "Unreal Engine 5",
+  "reports": [
+    {
+      "id": "2026-10-04-maintainer",
+      "rating": "broken",
+      "date": "2026-10-04",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D12",
+      "notes": "Does not load yet; it has never reached gameplay. Unreal Engine 5 needs shader model 6.6 and 64-bit atomics on typed resources, which were added on the way. A launch then sat in loading while Metal's compiler died on the game's largest compute kernels, 8-13 MB of generated MSL each: 14 pipelines failed in 25 minutes.",
+      "followUp": "The failing shaders are saved by the driver; not yet investigated.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #23"
+        }
+      ]
+    }
+  ]
+}

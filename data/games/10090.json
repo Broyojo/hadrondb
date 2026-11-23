@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 10090,
+  "name": "Call of Duty: World at War",
+  "graphicsApis": [
+    "D3D9"
+  ],
+  "arch": "32-bit",
+  "reports": [
+    {
+      "id": "2026-11-16-community",
+      "rating": "issues",
+      "date": "2026-11-16",
+      "hadronVersion": "unknown",
+      "reporter": "community",
+      "graphicsApi": "D3D9",
+      "issues": [
+        "Frame pacing is uneven.",
+        "Voice lines play late.",
+        "Picking the native resolution left an empty window while the UI sounds kept playing."
+      ],
+      "notes": "Relayed from Hadron's Discord. It runs.",
+      "followUp": "The empty window after a resolution change is fixed in mtld3d 0.15 and comes with an upcoming mtld3d update.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/177",
+          "title": "Windowed resolution change leaves an empty window"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1349230,
+  "name": "5D Chess With Multiverse Time Travel",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-05-community",
+      "rating": "well",
+      "date": "2026-10-05",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "community",
+      "system": {
+        "chip": "M5 Max"
+      },
+      "graphicsApi": "OpenGL",
+      "notes": "Six minutes on Zink on the first outside tester's Mac, clean log.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        }
+      ]
+    }
+  ]
+}

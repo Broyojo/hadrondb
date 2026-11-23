@@ -1,0 +1,67 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 379720,
+  "name": "DOOM",
+  "graphicsApis": [
+    "Vulkan",
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "engine": "id Tech 6",
+  "tips": [
+    "The game's Vulkan renderer is the one tested (DOOMx64vk.exe)."
+  ],
+  "reports": [
+    {
+      "id": "2026-11-05-prisedrabbit",
+      "rating": "unplayable",
+      "date": "2026-11-05",
+      "hadronVersion": "0.3.2",
+      "reporter": "PrisedRabbit",
+      "system": {
+        "model": "MacBook Pro",
+        "chip": "M1 Max",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "Vulkan",
+      "retinaMode": "off",
+      "launchOptions": "DOOMx64vk.exe started directly; RetinaMode=n",
+      "issues": [
+        "Loading a scene could grow its memory footprint to about 30 GB, until Hadron's memory watchdog stopped it (the driver's depth-bounds emulation kept a depth snapshot for every depth-writing draw)."
+      ],
+      "notes": "The startup blockers are fixed in 0.3.2: the game creates its Vulkan device and gets past the earlier descriptor assertion without any workaround.",
+      "followUp": "The depth-bounds fix (Hadron #158) shipped in 0.3.3 and issue #128 is closed; a report from 0.3.3 is wanted.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/128",
+          "title": "DOOM (2016) on M1 Max"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-24-prisedrabbit",
+      "rating": "broken",
+      "date": "2026-10-24",
+      "hadronVersion": "0.3.1",
+      "reporter": "PrisedRabbit",
+      "system": {
+        "model": "MacBook Pro",
+        "chip": "M1 Max",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "Vulkan",
+      "retinaMode": "off",
+      "notes": "Without local workarounds the game refuses to create its Vulkan device: it asks for depth bounds, which the driver didn't offer then. It played with an experimental wrapper that reported the missing features, which isn't a fix.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/128",
+          "title": "DOOM (2016) on M1 Max"
+        }
+      ]
+    }
+  ]
+}

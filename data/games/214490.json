@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 214490,
+  "name": "Alien: Isolation",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "32-bit",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-26-community",
+      "rating": "unplayable",
+      "date": "2026-10-26",
+      "hadronVersion": "0.3.1",
+      "reporter": "community",
+      "system": {
+        "chip": "M5 Pro",
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "D3D11",
+      "performance": "About 11-14 fps.",
+      "notes": "Relayed from Hadron's Discord. The game is 32-bit, and Hadron then built DXMT for 64-bit games only, so it rendered through Wine's own Direct3D 11 (wined3d on OpenGL on Zink).",
+      "followUp": "Hadron 0.3.3 runs 32-bit Direct3D 10 and 11 games through DXMT; a retest is pending.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/145",
+          "title": "32-bit Direct3D 10/11 games run through wined3d, not DXMT"
+        }
+      ]
+    }
+  ]
+}

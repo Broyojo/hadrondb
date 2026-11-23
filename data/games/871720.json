@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 871720,
+  "name": "Ultimate Custom Night",
+  "graphicsApis": [
+    "D3D9"
+  ],
+  "arch": "32-bit",
+  "engine": "Clickteam Fusion",
+  "reports": [
+    {
+      "id": "2026-09-30-maintainer",
+      "rating": "well",
+      "date": "2026-09-30",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D9",
+      "performance": "60 fps (the game's fixed rate) on the menu, nights mostly 60.",
+      "issues": [
+        "Some 20-33 ms stretches in nights, still to look at."
+      ],
+      "notes": "Fixed on the way: a quarter-size frame, a crash on GO, and 12 fps that became 60.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #16-19"
+        }
+      ]
+    }
+  ]
+}

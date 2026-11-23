@@ -1,0 +1,48 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 2833580,
+  "name": "BRAVELY DEFAULT FLYING FAIRY HD Remaster",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Unity 6 (IL2CPP)",
+  "headerImage": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2833580/560d12106258dde9bc4ac258cbe8e71d540eb8f5/header.jpg",
+  "reports": [
+    {
+      "id": "2026-10-12-maintainer",
+      "rating": "issues",
+      "date": "2026-10-12",
+      "hadronVersion": "0.3.0-dev",
+      "reporter": "maintainer",
+      "system": {
+        "chip": "M5",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "D3D11",
+      "issues": [
+        "The animation sometimes skips.",
+        "Changing the fullscreen resolution can leave the window inaccessible after it was minimized; not established as fixed."
+      ],
+      "notes": "Fullscreen focus switching reaches the Dock and restores. Steam launch and focus regression checks passed in two owner-led runs.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #30"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #35"
+        }
+      ]
+    }
+  ]
+}

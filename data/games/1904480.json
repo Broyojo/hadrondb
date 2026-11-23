@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1904480,
+  "name": "Absolum",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": ".NET NativeAOT",
+  "reports": [
+    {
+      "id": "2026-11-18-ifredos",
+      "rating": "broken",
+      "date": "2026-11-18",
+      "hadronVersion": "0.3.3",
+      "reporter": "iFredOS",
+      "system": {
+        "chip": "M5 Ultra",
+        "macos": "27.3"
+      },
+      "notes": "Launched from Mac Steam, the game exits after about 3 s. It is a console-subsystem program (.NET NativeAOT), and Hadron's Steam launcher started it without a console, so setting the console title failed.",
+      "followUp": "Fixed by Hadron pull request #185, which gives a console game a console of its own; expected in the next release.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/184",
+          "title": "Console-subsystem games die at start under Steam"
+        },
+        {
+          "type": "pull",
+          "url": "https://github.com/Broyojo/hadron/pull/185",
+          "title": "Give a console game a console of its own"
+        }
+      ]
+    }
+  ]
+}

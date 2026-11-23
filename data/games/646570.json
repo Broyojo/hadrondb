@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 646570,
+  "name": "Slay the Spire",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "engine": "Java 8, LWJGL",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-05-maintainer",
+      "rating": "broken",
+      "date": "2026-10-05",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "notes": "Does not start: \"A Java Exception has occurred\" from its launcher; the exception itself has not been captured. A stock Java 8 misbehaves under FEX once its compilers run, which may be the same thing.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #27"
+        }
+      ]
+    }
+  ]
+}

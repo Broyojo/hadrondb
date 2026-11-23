@@ -1,0 +1,54 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 264710,
+  "name": "Subnautica",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Unity",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-12-maintainer",
+      "rating": "well",
+      "date": "2026-10-12",
+      "hadronVersion": "0.3.0-dev",
+      "reporter": "maintainer",
+      "system": {
+        "chip": "M5",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "notes": "Steam launch and focus regression checks passed in two owner-led runs.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #35"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-03-maintainer",
+      "rating": "well",
+      "date": "2026-10-03",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "maintainer",
+      "graphicsApi": "D3D11",
+      "notes": "Played by hand from Mac Steam: smoother than the game's own Intel macOS version under Rosetta. Not profiled yet.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        }
+      ]
+    }
+  ]
+}

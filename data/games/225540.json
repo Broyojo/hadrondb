@@ -1,0 +1,11 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 225540,
+  "name": "Just Cause 3",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Apex",
+  "reports": []
+}

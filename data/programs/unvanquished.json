@@ -1,0 +1,50 @@
+{
+  "$schema": "../../schema/program.schema.json",
+  "slug": "unvanquished",
+  "name": "Unvanquished",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "engine": "Daemon",
+  "website": "https://unvanquished.net/",
+  "reports": [
+    {
+      "id": "2026-10-24-maintainer",
+      "rating": "issues",
+      "date": "2026-10-24",
+      "hadronVersion": "0.3.2-dev",
+      "reporter": "maintainer",
+      "system": {
+        "chip": "M2 Pro"
+      },
+      "graphicsApi": "OpenGL",
+      "launchOptions": "hadron run daemon.exe -set r_fullscreen 0 (windowed) or 1 (fullscreen)",
+      "issues": [
+        "W, A, S and D do not move the player, while the arrow keys do."
+      ],
+      "notes": "Version 0.56.2 reaches the menu, windowed and fullscreen: the game's own screenshot 40 s in shows the main menu, and it quits on quit. OpenGL on Zink.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/111",
+          "title": "WASD do not move the player"
+        },
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/112"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #51"
+        }
+      ]
+    }
+  ]
+}

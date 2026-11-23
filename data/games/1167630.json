@@ -1,0 +1,48 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1167630,
+  "name": "Teardown",
+  "graphicsApis": [
+    "D3D12"
+  ],
+  "arch": "64-bit",
+  "engine": "Custom (Tuxedo Labs)",
+  "reports": [
+    {
+      "id": "2026-10-12-maintainer",
+      "rating": "well",
+      "date": "2026-10-12",
+      "hadronVersion": "0.3.0-dev",
+      "reporter": "maintainer",
+      "system": {
+        "chip": "M2 Pro"
+      },
+      "graphicsApi": "D3D12",
+      "gameSettings": "Render scale 100%, quality Low",
+      "performance": "About 60 fps in a level, since the game runs one frame ahead; 16 fps before, with the GPU at its lowest clock.",
+      "notes": "Direct3D 12 through vkd3d-proton on KosmicKrisp, at feature level 12_0 with no overrides. The first launch after a driver change is slow while pipelines compile. On a Sidecar iPad it aborted when it switched to the iPad's 1025x768 mode, until a Wine fix on 2026-10-24.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #22"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #33"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #54"
+        }
+      ]
+    }
+  ]
+}

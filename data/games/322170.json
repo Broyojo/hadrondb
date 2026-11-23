@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 322170,
+  "name": "Geometry Dash",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "engine": "Cocos2d-x",
+  "hasMacVersion": true,
+  "reports": [
+    {
+      "id": "2026-10-24-maintainer",
+      "rating": "well",
+      "date": "2026-10-24",
+      "hadronVersion": "0.3.1",
+      "reporter": "maintainer",
+      "graphicsApi": "OpenGL",
+      "issues": [
+        "With the Geode mod loader (Geode 5.11.2 on Geometry Dash 2.209), about one launch in four or five hangs or crashes at startup. Without Geode it starts."
+      ],
+      "notes": "OpenGL on Zink, played and found good. Signing in to a Geometry Dash account and relaunching both work.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #53"
+        }
+      ]
+    }
+  ]
+}

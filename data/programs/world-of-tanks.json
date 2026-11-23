@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schema/program.schema.json",
+  "slug": "world-of-tanks",
+  "name": "World of Tanks",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "website": "https://worldoftanks.com/",
+  "reports": [
+    {
+      "id": "2026-11-09-gabrielhamel",
+      "rating": "broken",
+      "date": "2026-11-09",
+      "hadronVersion": "0.3.2",
+      "reporter": "gabrielhamel",
+      "system": {
+        "model": "MacBook Pro (2021)",
+        "chip": "M1 Max",
+        "macos": "27.2"
+      },
+      "launchOptions": "hadron run WorldOfTanks.exe",
+      "notes": "Started without Steam, it exits at start. The terminal shows \"Mesa: error: GL_INVALID_OPERATION in glGetUnsignedBytevEXT(unsupported)\".",
+      "followUp": "Under investigation in Hadron issue #155.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/155",
+          "title": "World of Tanks exits at start"
+        }
+      ]
+    }
+  ]
+}

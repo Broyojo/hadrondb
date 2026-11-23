@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 361420,
+  "name": "ASTRONEER",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "engine": "Unreal Engine 4",
+  "reports": [
+    {
+      "id": "2026-10-05-community",
+      "rating": "well",
+      "date": "2026-10-05",
+      "hadronVersion": "0.1.0-dev",
+      "reporter": "community",
+      "system": {
+        "chip": "M5 Max"
+      },
+      "graphicsApi": "D3D11",
+      "notes": "On the first outside tester's Mac, after the Visual C++ runtime fix. Before it, Unreal's launcher started the prerequisite installer, which hung in its .NET Framework step.",
+      "links": [
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/test-games.md",
+          "title": "Hadron's test games"
+        },
+        {
+          "type": "doc",
+          "url": "https://github.com/Broyojo/hadron/blob/main/docs/findings.md",
+          "title": "Hadron findings #26"
+        }
+      ]
+    }
+  ]
+}

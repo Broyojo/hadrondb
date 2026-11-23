@@ -1,0 +1,39 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 730,
+  "name": "Counter-Strike 2",
+  "graphicsApis": [
+    "D3D11",
+    "Vulkan"
+  ],
+  "arch": "64-bit",
+  "antiCheat": "VAC",
+  "reports": [
+    {
+      "id": "2026-11-01-community",
+      "rating": "unplayable",
+      "date": "2026-11-01",
+      "hadronVersion": "0.3.2",
+      "reporter": "community",
+      "system": {
+        "chip": "M5 Pro",
+        "ramGB": 64,
+        "macos": "27.0.1"
+      },
+      "launchOptions": "-d3d11, or -vulkan",
+      "issues": [
+        "With -d3d11 it reached a training match, then crashed; another run crashed in the menu.",
+        "With -vulkan it stayed on the splash screen, or started a match where part of the screen went black at team selection, then crashed on a Vulkan driver (Mesa) assertion."
+      ],
+      "notes": "Relayed from Hadron's Discord, four sessions. It gets past its loading screen to the main menu.",
+      "followUp": "Under investigation in Hadron issue #147.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/147",
+          "title": "Counter-Strike 2 crashes in the menu or in a match"
+        }
+      ]
+    }
+  ]
+}

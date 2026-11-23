@@ -1,0 +1,10 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 314650,
+  "name": "SpaceEngine",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "reports": []
+}

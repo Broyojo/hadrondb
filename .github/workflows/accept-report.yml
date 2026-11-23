@@ -1,0 +1,81 @@
+# When a maintainer adds the "accepted" label to a game report issue, turn the issue's form
+# answers into a data file change and open a pull request with it. If the answers can't be
+# used, say why on the issue and take the label off again.
+#
+# The issue's text is untrusted: it is only ever read from the event file by
+# scripts/accept-report.ts, never put into a shell command or an expression here.
+#
+# Needs Settings > Actions > General > "Allow GitHub Actions to create and approve pull
+# requests". Pull requests opened with GITHUB_TOKEN don't start other workflows, so this job
+# validates the data itself before it opens one.
+name: Accept report
+
+on:
+  issues:
+    types: [labeled]
+
+permissions: {}
+
+concurrency:
+  group: accept-report-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  accept:
+    if: github.event.label.name == 'accepted' && contains(github.event.issue.labels.*.name, 'report')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # push the report's branch
+      pull-requests: write # open the pull request
+      issues: write # comment, and remove the label
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: pnpm install --frozen-lockfile
+
+      - name: Read the report
+        id: prepare
+        run: node scripts/accept-report.ts
+
+      - name: Check the data
+        if: steps.prepare.outputs.ok == 'true'
+        run: node scripts/validate-data.ts
+
+      - name: Open the pull request
+        if: steps.prepare.outputs.ok == 'true'
+        env:
+          BRANCH: ${{ steps.prepare.outputs.branch }}
+          DATA_PATH: ${{ steps.prepare.outputs.path }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/hadrondb"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git add -- "$DATA_PATH"
+          git commit --file "$out/commit-message.txt"
+          git push --force origin "HEAD:refs/heads/$BRANCH"
+          url="$(gh pr list --head "$BRANCH" --state open --json url --jq '.[0].url // ""')"
+          if [ -z "$url" ]; then
+            url="$(gh pr create --base main --head "$BRANCH" --title "$(cat "$out/pr-title.txt")" --body-file "$out/pr-body.md")"
+          else
+            gh pr edit "$url" --title "$(cat "$out/pr-title.txt")" --body-file "$out/pr-body.md"
+          fi
+          printf 'Thanks for the report! It is in %s, and it appears on HadronDB once that is merged.\n' "$url" > "$out/comment.md"
+          gh issue comment "$ISSUE" --body-file "$out/comment.md"
+
+      - name: Explain what needs fixing
+        if: steps.prepare.outputs.ok == 'false'
+        run: |
+          set -euo pipefail
+          gh issue comment "$ISSUE" --body-file "$RUNNER_TEMP/hadrondb/comment.md"
+          gh issue edit "$ISSUE" --remove-label accepted
