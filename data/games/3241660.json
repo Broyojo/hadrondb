@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 3241660,
+  "name": "R.E.P.O.",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "reports": [
+    {
+      "id": "issue-1",
+      "rating": "well",
+      "date": "2026-11-26",
+      "hadronVersion": "0.3.3",
+      "reporter": "monoterne",
+      "system": {
+        "model": "MacBook Air 14-inch (2025)",
+        "chip": "M4",
+        "ramGB": 24,
+        "macos": "27.2.1"
+      },
+      "graphicsApi": "D3D11",
+      "retinaMode": "on",
+      "gameSettings": "2560x1664, High, Fullscreen",
+      "performance": "Vsynced to 60 fps, sometimes drops to ~40",
+      "notes": "I wasn't playing for long, so I can't say much about overheating, etc. But after running two different maps for about 30 minutes in total, the FPS was fine most of the time, with some occasional spikes. I used Max settings with pixelation turned to the minimum. And yeah, maybe there is a subtle input lag, but it's totally bearable.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadrondb/issues/1",
+          "title": "Report #1"
+        }
+      ]
+    }
+  ]
+}
