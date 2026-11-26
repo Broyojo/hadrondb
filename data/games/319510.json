@@ -9,6 +9,32 @@
   "engine": "Clickteam Fusion",
   "reports": [
     {
+      "id": "2026-11-25-maintainer-040",
+      "rating": "well",
+      "date": "2026-11-25",
+      "hadronVersion": "0.4.0",
+      "reporter": "maintainer",
+      "system": {
+        "model": "MacBook Pro 14-inch (2023)",
+        "chip": "M2 Pro",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "D3D9",
+      "retinaMode": "on",
+      "issues": [
+        "The fade from the menu to the newspaper doesn't play: the newspaper appears at once (also on 0.3.3)."
+      ],
+      "notes": "Fullscreen is letterboxed and the office's edges draw cleanly now (no more smearing). Works with the Steam overlay on.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/205",
+          "title": "Clickteam frame transitions end after one step"
+        }
+      ]
+    },
+    {
       "id": "2026-09-30-maintainer",
       "rating": "well",
       "date": "2026-09-30",

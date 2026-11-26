@@ -10,6 +10,32 @@
   "hasMacVersion": true,
   "reports": [
     {
+      "id": "2026-11-26-maintainer-040",
+      "rating": "well",
+      "date": "2026-11-26",
+      "hadronVersion": "0.4.0",
+      "reporter": "maintainer",
+      "system": {
+        "model": "MacBook Pro 14-inch (2023)",
+        "chip": "M2 Pro",
+        "ramGB": 32,
+        "macos": "27.0.1"
+      },
+      "graphicsApi": "OpenGL",
+      "retinaMode": "on",
+      "performance": "120 fps, maybe better than before; rare dips to about 80 fps when a lot is on screen.",
+      "issues": [
+        "With the Geode mod loader (v6.0.0, installed with its Windows installer through hadron run), about one start in ten closes right away; starting again works."
+      ],
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadron/issues/208",
+          "title": "Geode installs and runs reliably under Hadron"
+        }
+      ]
+    },
+    {
       "id": "2026-10-24-maintainer",
       "rating": "well",
       "date": "2026-10-24",
