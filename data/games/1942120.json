@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 1942120,
+  "name": "The Complex: Found Footage",
+  "graphicsApis": [
+    "D3D11"
+  ],
+  "arch": "64-bit",
+  "reports": [
+    {
+      "id": "issue-2",
+      "rating": "unplayable",
+      "date": "2026-11-26",
+      "hadronVersion": "0.4.0",
+      "reporter": "Vellixd",
+      "system": {
+        "model": "MacBook Pro 16-inch (2021)",
+        "chip": "M1 Pro",
+        "ramGB": 16,
+        "macos": "27.3"
+      },
+      "graphicsApi": "D3D11",
+      "issues": [
+        "launches with a black screen, hangs around (i assume the caching and translation happens), then gets into memory overload and crashes"
+      ],
+      "notes": "installed, set the compat tool at hadron, no args and no metalfx settings. the game launches, then hangs around for around 5 min total, while on the third min a black screen appears with a memory warning, then another warning, and then it said that memory overload happened and the game crashed. can i disable the memory limit or let it use system swap at least?",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadrondb/issues/2",
+          "title": "Report #2"
+        }
+      ]
+    }
+  ]
+}
