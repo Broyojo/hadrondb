@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 42700,
+  "name": "Call of Duty: Black Ops",
+  "graphicsApis": [
+    "D3D9"
+  ],
+  "arch": "32-bit",
+  "reports": [
+    {
+      "id": "issue-6",
+      "rating": "broken",
+      "date": "2026-11-27",
+      "hadronVersion": "0.4.0",
+      "reporter": "M4ST3R0FD1S4ST3R",
+      "system": {
+        "model": "MacBook Air(2025)",
+        "chip": "M4",
+        "ramGB": 16,
+        "macos": "27.2"
+      },
+      "graphicsApi": "D3D9",
+      "retinaMode": "on",
+      "issues": [
+        "Crashes before window can be drawn."
+      ],
+      "notes": "When clicking play on Steam application terminates before a window can be drawn. See attached log:\n\n[Hadron-report-20261126-194711.zip](https://github.com/user-attachments/files/35490771/Hadron-report-20261126-194711.zip)",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadrondb/issues/6",
+          "title": "Report #6"
+        },
+        {
+          "type": "discord",
+          "url": "https://discord.com/channels/1556865251033747507/1575694538297712692"
+        }
+      ]
+    }
+  ]
+}
