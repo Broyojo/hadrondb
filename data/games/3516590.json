@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schema/game.schema.json",
+  "appId": 3516590,
+  "name": "Allumeria",
+  "graphicsApis": [
+    "OpenGL"
+  ],
+  "arch": "64-bit",
+  "reports": [
+    {
+      "id": "issue-7",
+      "rating": "perfect",
+      "date": "2026-11-27",
+      "hadronVersion": "0.4.0",
+      "reporter": "M4ST3R0FD1S4ST3R",
+      "system": {
+        "model": "MacBook Air",
+        "chip": "M4",
+        "ramGB": 16,
+        "macos": "27.2.1"
+      },
+      "graphicsApi": "OpenGL",
+      "retinaMode": "on",
+      "gameSettings": "Fullscreen",
+      "performance": "30-40FPS average",
+      "notes": "Played for half an hour, only glitches spotted were those that could also be reproduced in Linux.",
+      "links": [
+        {
+          "type": "issue",
+          "url": "https://github.com/Broyojo/hadrondb/issues/7",
+          "title": "Report #7"
+        },
+        {
+          "type": "discord",
+          "url": "https://discord.com/channels/1556865251033747507/1575709251287130142"
+        }
+      ]
+    }
+  ]
+}
