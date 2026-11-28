@@ -213,7 +213,7 @@ export function parseIssue(issue: IssueInfo): ParseResult {
     // One address per line, bare, as a Markdown link, or after a few words that describe it
     // ("Discord thread: https://…"); the words become the link's title.
     const markdown = /^\[([^\]]+)\]\((\S+)\)$/.exec(raw);
-    const found = markdown ? [markdown[2]] : (raw.match(/[a-z][a-z0-9+.-]*:\/\/[^\s<>()]+/gi) ?? []);
+    const found = markdown ? [markdown[2]] : (raw.match(/[a-z][a-z0-9+.-]*:\/\/[^\s<>]+/gi) ?? []);
     if (found.length !== 1) {
       errors.push(
         found.length === 0
@@ -222,13 +222,29 @@ export function parseIssue(issue: IssueInfo): ParseResult {
       );
       continue;
     }
-    const address = found[0].replace(/[.,;:!?'"]+$/, "");
+    // Trailing punctuation isn't part of the address, nor is a ")" without its "(" ("(see https://…)"),
+    // but parentheses inside one are: https://www.pcgamingwiki.com/wiki/Doom_(2016).
+    let address = found[0];
+    for (;;) {
+      const trimmed = address.replace(/[.,;:!?'"]+$/, "");
+      const opens = (trimmed.match(/\(/g) ?? []).length;
+      const closes = (trimmed.match(/\)/g) ?? []).length;
+      const next = trimmed.endsWith(")") && closes > opens ? trimmed.slice(0, -1) : trimmed;
+      if (next === address) break;
+      address = next;
+    }
     try {
       const u = new URL(address);
       if (u.protocol !== "https:") throw new Error();
-      const words = (markdown ? markdown[1] : raw.replace(found[0], " "))
+      const words = (markdown ? markdown[1] : raw.replace(address, " "))
         .replace(/[<>]/g, " ")
         .replace(/\s+/g, " ")
+        .replace(/\(\s*\)/g, " ")
+        .replace(/^[\s:\-–—]+|[\s:\-–—]+$/g, "")
+        .trim()
+        .replace(/^\((.*)\)$/, "$1")
+        .replace(/^\(([^)]*)$/, "$1")
+        .replace(/^([^(]*)\)$/, "$1")
         .replace(/^[\s:\-–—]+|[\s:\-–—]+$/g, "")
         .trim();
       const link: ReportLink = { type: linkType(u), url: u.toString() };

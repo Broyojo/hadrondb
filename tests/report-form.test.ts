@@ -144,15 +144,19 @@ describe("parseIssue", () => {
           "Discord thread tracking the issue: https://discord.com/channels/1/2/3",
           "- [Video of the bug](https://www.youtube.com/watch?v=abc)",
           "<https://github.com/Broyojo/hadron/issues/214>.",
+          "PCGamingWiki: https://www.pcgamingwiki.com/wiki/Doom_(2016)",
+          "(see https://example.com/a_(b))",
         ].join("\n"),
       }),
     );
     expect(r.ok).toBe(true);
     if (!r.ok) return;
-    expect(r.report.links.slice(1)).toEqual([
+    expect(r.report.links?.slice(1)).toEqual([
       { type: "discord", url: "https://discord.com/channels/1/2/3", title: "Discord thread tracking the issue" },
       { type: "other", url: "https://www.youtube.com/watch?v=abc", title: "Video of the bug" },
       { type: "issue", url: "https://github.com/Broyojo/hadron/issues/214" },
+      { type: "other", url: "https://www.pcgamingwiki.com/wiki/Doom_(2016)", title: "PCGamingWiki" },
+      { type: "other", url: "https://example.com/a_(b)", title: "see" },
     ]);
   });
 
