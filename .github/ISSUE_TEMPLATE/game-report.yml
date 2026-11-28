@@ -54,8 +54,8 @@ body:
     id: hadron-version
     attributes:
       label: Hadron version
-      description: "`hadron status` prints it, and so does Hadron's About window."
-      placeholder: 0.3.3
+      description: "Hadron's window shows it under the name, and `hadron version` prints it."
+      placeholder: 0.4.1
     validations:
       required: true
 
@@ -211,7 +211,7 @@ body:
     id: links
     attributes:
       label: Links
-      description: A Hadron issue, a Discord thread, a video. One https:// address per line.
+      description: 'A Hadron issue, a Discord thread, a video. One https:// address per line; a few words before it, such as "Discord thread:", become its title.'
     validations:
       required: false
 
