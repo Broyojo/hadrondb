@@ -136,6 +136,38 @@ describe("parseIssue", () => {
     expect(r.target).toMatchObject({ kind: "program", slug: "world-of-tanks", website: "https://worldoftanks.com/" });
   });
 
+  it("takes links with a few words before them, or as Markdown links", () => {
+    const r = parseIssue(
+      issue({
+        ...GOOD_ANSWERS,
+        links: [
+          "Discord thread tracking the issue: https://discord.com/channels/1/2/3",
+          "- [Video of the bug](https://www.youtube.com/watch?v=abc)",
+          "<https://github.com/Broyojo/hadron/issues/214>.",
+        ].join("\n"),
+      }),
+    );
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.report.links.slice(1)).toEqual([
+      { type: "discord", url: "https://discord.com/channels/1/2/3", title: "Discord thread tracking the issue" },
+      { type: "other", url: "https://www.youtube.com/watch?v=abc", title: "Video of the bug" },
+      { type: "issue", url: "https://github.com/Broyojo/hadron/issues/214" },
+    ]);
+  });
+
+  it("refuses a links line with no address, two addresses or an http one", () => {
+    const r = parseIssue(
+      issue({ ...GOOD_ANSWERS, links: "see the thread\nhttps://a.example/ https://b.example/\nold: http://example.com/" }),
+    );
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    const all = r.errors.join("\n");
+    expect(all).toMatch(/"see the thread" has no https:\/\/ address/);
+    expect(all).toMatch(/has more than one address/);
+    expect(all).toMatch(/"http:\/\/example.com\/" isn't an https:\/\/ address/);
+  });
+
   it("lists every problem at once", () => {
     const r = parseIssue(
       issue({

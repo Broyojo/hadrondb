@@ -210,12 +210,32 @@ export function parseIssue(issue: IssueInfo): ParseResult {
   const links: ReportLink[] = [{ type: "issue", url: issue.url, title: `Report #${issue.number}` }];
   for (const line of value("links").split("\n").map((l) => l.trim()).filter(Boolean)) {
     const raw = line.replace(/^[-*]\s+/, "");
+    // One address per line, bare, as a Markdown link, or after a few words that describe it
+    // ("Discord thread: https://…"); the words become the link's title.
+    const markdown = /^\[([^\]]+)\]\((\S+)\)$/.exec(raw);
+    const found = markdown ? [markdown[2]] : (raw.match(/[a-z][a-z0-9+.-]*:\/\/[^\s<>()]+/gi) ?? []);
+    if (found.length !== 1) {
+      errors.push(
+        found.length === 0
+          ? `${FIELDS.links}: "${raw}" has no https:// address. Put one address on each line.`
+          : `${FIELDS.links}: "${raw}" has more than one address. Put one address on each line.`,
+      );
+      continue;
+    }
+    const address = found[0].replace(/[.,;:!?'"]+$/, "");
     try {
-      const u = new URL(raw);
+      const u = new URL(address);
       if (u.protocol !== "https:") throw new Error();
-      links.push({ type: linkType(u), url: u.toString() });
+      const words = (markdown ? markdown[1] : raw.replace(found[0], " "))
+        .replace(/[<>]/g, " ")
+        .replace(/\s+/g, " ")
+        .replace(/^[\s:\-–—]+|[\s:\-–—]+$/g, "")
+        .trim();
+      const link: ReportLink = { type: linkType(u), url: u.toString() };
+      if (/[\p{L}\p{N}]/u.test(words)) link.title = words.slice(0, 200);
+      links.push(link);
     } catch {
-      errors.push(`${FIELDS.links}: "${raw}" isn't an https:// address. Put one address on each line.`);
+      errors.push(`${FIELDS.links}: "${address}" isn't an https:// address. Put one address on each line.`);
     }
   }
 
